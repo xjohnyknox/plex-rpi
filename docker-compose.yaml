@@ -10,9 +10,9 @@ services:
     environment:
       - TZ=America/Colombia/Bogota
     volumes:
-      - nfs_plex_data:/root/Library/Application Support/Plex Media Server
-      - nfs_media:/media
-      - nfs_tmp:/tmp
+      - /mnt/plex/plex_data:/root/Library/Application Support/Plex Media Server
+      - /mnt/plex/media_data:/media
+      - /mnt/plex/tmp_data:/tmp
     restart: unless-stopped
     network_mode: "host"
 
@@ -21,7 +21,7 @@ services:
     command: transmission-daemon -f -g /config
     volumes:
       - ./transmission:/config
-      - nfs_downloads:/downloads
+      - /mnt/plex/downloads_data:/downloads
     ports:
       - 9091:9091
       - 51413:51413
@@ -35,8 +35,8 @@ services:
     volumes:
       - ./flexget:/config
       - ./flexget/custom-cont-init.d:/custom-cont-init.d
-      - nfs_downloads:/downloads
-      - nfs_media:/storage
+      - /mnt/plex/downloads_data:/downloads
+      - /mnt/plex/media_data:/storage
     ports:
       - 5050:5050
     environment:
@@ -45,29 +45,3 @@ services:
       - TORRENT_PLUGIN=transmission
       - FG_WEBUI_PASSWD=p3l4d0_N3RD
     restart: unless-stopped
-
-volumes:
-  nfs_plex_data:
-    driver: local
-    driver_opts:
-      type: nfs
-      o: addr=10.11.0.5,nfsvers=4,nolock
-      device: "/volume1/plex/plex_data"
-  nfs_media:
-    driver: local
-    driver_opts:
-      type: nfs
-      o: addr=10.11.0.5,nfsvers=4,nolock
-      device: "/volume1/plex/media_data"
-  nfs_downloads:
-    driver: local
-    driver_opts:
-      type: nfs
-      o: addr=10.11.0.5,nfsvers=4,nolock
-      device: "/volume1/plex/downloads_data"
-  nfs_tmp:
-    driver: local
-    driver_opts:
-      type: nfs
-      o: addr=10.11.0.5,nfsvers=4,nolock
-      device: "/volume1/plex/tmp_data"

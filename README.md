@@ -101,3 +101,12 @@ Las raspberry son computadoras excelentes pero no muy potentes, y plex por defec
 <img src="https://i.imgur.com/F3kZ9Vh.png" alt="plex" width="400"/>
 
 Más info acá: https://github.com/pablokbs/plex-rpi/issues/3
+
+
+EXTRA:
+Crear la LXC asi:
+NFS cheked and NEsting
+Y luego montar
+mount -t nfs 10.11.0.5:/volume1/plex /mnt/plex
+/etc/fstab quedaria asi:
+10.11.0.5:/volume1/plex /mnt/plex nfs defaults 0 0
